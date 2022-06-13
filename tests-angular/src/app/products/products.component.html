@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="card" *ngIf="products; else errors">
+    <div class="card-header">
+      liste des produits
+    </div>
+    <div class="card-body">
+<!--      {{searchFormGroup.value | json}}-->
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProduct()">
+        <div class="input-group">
+          <label class="input-group-text" for="keywords">Mot-clef : </label>
+          <input type="text" class="form-control" id="keywords" name="keywords" formControlName="keywords">
+          <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+        </div>
+      </form>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>nom</th>
+          <th>prix</th>
+          <th>promotion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of products">
+          <td>{{p.id}}</td>
+          <td>{{p.name}}</td>
+          <td>{{p.price}}</td>
+          <td><i *ngIf="p.promotion === true" class="bi bi-check-circle-fill text-success"></i></td>
+          <td>
+            <button class="btn btn-danger" (click)="handleDeleteProduct(p)">
+              <i class="bi-trash"></i>
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-info" [ngClass]="p.promotion== true ? 'btn btn-info' : 'btn btn-warning'"
+                    (click)="handleSetPromotion(p)">
+              <span *ngIf="p.promotion === true">Désactiver promo</span>
+              <span *ngIf="p.promotion === false">Activer promo</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <ul class="nav nav-pills">
+<!--        création d'un tableau de dimension page total-->
+        <li *ngFor="let item of [].constructor(this.totalPages); let i = index">
+          <a
+            [ngClass]="i === currentPage? 'btn btn-info ms-1 mt-1 me-1' : ' btn btn-outline-info ms-1 mt-1 me-1'"
+            (click)="goToPage(i)"
+          >{{i+1}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <ng-template #errors>
+    <div class="text-danger">{{errorMessage}}</div>
+  </ng-template>
+</div>
