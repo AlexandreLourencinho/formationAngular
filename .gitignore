@@ -28,3 +28,4 @@ target/
 
 # intellij idea files
 .idea
+.vscode
