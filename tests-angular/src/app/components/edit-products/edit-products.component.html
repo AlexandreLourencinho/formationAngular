@@ -1,0 +1,34 @@
+
+<div class="container mt-3 col-md-6 offset-md-3">
+  <div>
+    <form [formGroup]="productFormGroup" (ngSubmit)="handleUpdateProduct()">
+      <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="text" id="id" class="form-control" value="{{product.id}}" [disabled]="true">
+        <span *ngIf="productFormGroup.controls['name'].errors && productFormGroup.controls['name'].touched" class="text-danger">
+          {{productService.getErrorMessage('name', productFormGroup.controls['name'].errors)}}
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Nom Produit</label>
+        <input type="text" formControlName="name" id="name" class="form-control">
+        <span *ngIf="productFormGroup.controls['name'].errors && productFormGroup.controls['name'].touched" class="text-danger">
+          {{productService.getErrorMessage('name', productFormGroup.controls['name'].errors)}}
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Prix produit</label>
+        <input type="number" formControlName="price" id="price" class="form-control">
+        <span *ngIf="productFormGroup.controls['price'].errors && productFormGroup.controls['price'].touched" class="text-danger">
+          {{productService.getErrorMessage('price', productFormGroup.controls['price'].errors)}}
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="promotion" class="form-label me-2">En promotion ? </label>
+        <input type="checkbox" formControlName="promotion" id="promotion" class="form-check-inline">
+      </div>
+      <button class="btn btn-outline-success" [disabled]="productFormGroup.invalid"> Modifier </button>
+    </form>
+  </div>
+
+</div>
