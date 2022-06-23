@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductsService} from "../services/products.service";
-import {Product} from "../model/product.model";
+import {ProductsService} from "../../services/products/products.service";
+import {Product} from "../../model/product.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {AuthenticationService} from "../../services/authentification/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -19,7 +21,9 @@ export class ProductsComponent implements OnInit {
   public currentAction: string = "all";
 
   constructor(private productService: ProductsService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              public authService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -105,4 +109,7 @@ export class ProductsComponent implements OnInit {
     else this.handleSearchProduct();
   }
 
+  handleEditProduct(p: Product) {
+    this.router.navigateByUrl("/admin/edit-product/"+p.id);
+  }
 }
