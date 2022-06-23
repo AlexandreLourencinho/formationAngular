@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Observable, of, throwError} from "rxjs";
-import {PageProduct, Product} from "../model/product.model";
+import {PageProduct, Product} from "../../model/product.model";
 import {UUID} from "angular2-uuid";
+import {ValidationErrors} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,33 @@ export class ProductsService {
     let pageProducts: Array<Product> = result.slice(index, index + size);
     if (pageProducts === undefined) return throwError(() => new Error("product not found"));
     return of({page: page, size: size, totalPages: totalPage, products: pageProducts});
+  }
+
+  public addNewProduct(product: Product): Observable<Product> {
+    product.id = UUID.UUID();
+    this.products.push(product);
+    return of(product);
+  }
+
+  public getProduct(id: string): Observable<Product> {
+    const product: Product | undefined = this.products.find(p => p.id === id);
+    if (product === undefined) return throwError("produit non trouvé");
+    return of(product);
+  }
+
+  public updateProduct(product: Product) {
+    this.products = this.products.map(p => (p.id === product.id)? product : p); // si p.id égal product.id, product est inséré, sinon l'ancien (p) est laissé
+    return of(product);
+  }
+
+  public getErrorMessage(name: string, errors: ValidationErrors) {
+    if (errors['required']) {
+      return "Ce champ est recquis.";
+    } else if (errors['minlength']) {
+      return "Ce champ doit contenir au moins " + errors['minlength']['requiredLength'] + "charatères.";
+    }else if (errors['min']) {
+      return " La valeur de ce champ doit être au moins supérieur à " + errors['min']['min'] + ".";
+    } else return "";
   }
 
 }
