@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
-import {Customer} from "../../model/Customers.model";
+import {Customer} from "../../model/customers.model";
 import {CustomersService} from "../../services/customers/customers.service";
 
 @Component({
